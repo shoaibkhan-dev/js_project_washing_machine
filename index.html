@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Washing Machine Process with Icons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .slider-container {
+            width: 100%;
+            margin: 40px 0 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            outline: none;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+        
+        .slider-labels-container {
+            position: relative;
+            margin-top: 40px;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .slider-label {
+            text-align: center;
+            width: 16%;
+            position: relative;
+        }
+        
+        .label-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #ecf0f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 20px;
+            color: #7f8c8d;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .slider-label.active .label-icon {
+            background-color: #3498db;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .slider-label.active .label-text {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .label-text {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            transition: all 0.3s;
+        }
+        
+        .status-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .status {
+            font-size: 18px;
+            min-height: 27px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .timer {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+            min-width: 80px;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .progress-container {
+            margin: 30px 0;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            width: 0%;
+            transition: width 0.5s;
+            border-radius: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            min-width: 120px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #pauseButton {
+            background-color: #f39c12;
+        }
+        
+        #pauseButton:hover {
+            background-color: #e67e22;
+        }
+        
+        #resetButton {
+            background-color: #e74c3c;
+        }
+        
+        #resetButton:hover {
+            background-color: #c0392b;
+        }
+        
+        .completion-message {
+            text-align: center;
+            font-size: 18px;
+            color: #2ecc71;
+            font-weight: bold;
+            margin-top: 20px;
+            height: 27px;
+        }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-washing-machine"></i> Washing Machine Process</h1>
+    
+    <div class="slider-container">
+        <input type="range" min="0" max="5" value="0" class="slider" id="processSlider" disabled>
+        
+        <div class="slider-labels-container">
+            <div class="slider-labels">
+                <div class="slider-label" id="label0">
+                    <div class="label-icon"><i class="fas fa-power-off"></i></div>
+                    <div class="label-text">Power On</div>
+                </div>
+                <div class="slider-label" id="label1">
+                    <div class="label-icon"><i class="fas fa-tshirt"></i></div>
+                    <div class="label-text">Add Clothes</div>
+                </div>
+                <div class="slider-label" id="label2">
+                    <div class="label-icon"><i class="fas fa-tint"></i></div>
+                    <div class="label-text">Take Water</div>
+                </div>
+                <div class="slider-label" id="label3">
+                    <div class="label-icon"><i class="fas fa-soap"></i></div>
+                    <div class="label-text">Wash</div>
+                </div>
+                <div class="slider-label" id="label4">
+                    <div class="label-icon"><i class="fas fa-water"></i></div>
+                    <div class="label-text">Drain</div>
+                </div>
+                <div class="slider-label" id="label5">
+                    <div class="label-icon"><i class="fas fa-wind"></i></div>
+                    <div class="label-text">Dry</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-container">
+        <div class="status" id="statusMessage">Ready to start washing process</div>
+        <div class="timer" id="timer">00:00</div>
+    </div>
+    
+    <div class="progress-container">
+        <div class="progress-info">
+            <span>Progress:</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+    </div>
+    
+    <div class="completion-message" id="completionMessage"></div>
+    
+    <div class="controls">
+        <button id="startButton"><i class="fas fa-play"></i> Start</button>
+        <button id="pauseButton" disabled><i class="fas fa-pause"></i> Pause</button>
+        <button id="resetButton" disabled><i class="fas fa-redo"></i> Reset</button>
+    </div>
+    
+    <script>
+        const steps = [
+            { name: "Machine is on", duration: 2000, icon: "fa-power-off" },
+            { name: "Putting clothes into machine", duration: 5000, icon: "fa-tshirt" },
+            { name: "Taking water...", duration: 3000, icon: "fa-tint" },
+            { name: "Washing clothes...", duration: 4000, icon: "fa-soap" },
+            { name: "Draining water...", duration: 1000, icon: "fa-water" },
+            { name: "Drying clothes...", duration: 6000, icon: "fa-wind" }
+        ];
+        
+        // DOM elements
+        const slider = document.getElementById("processSlider");
+        const statusMessage = document.getElementById("statusMessage");
+        const timerElement = document.getElementById("timer");
+        const progressBar = document.getElementById("progressBar");
+        const progressPercent = document.getElementById("progressPercent");
+        const startButton = document.getElementById("startButton");
+        const pauseButton = document.getElementById("pauseButton");
+        const resetButton = document.getElementById("resetButton");
+        const completionMessage = document.getElementById("completionMessage");
+        
+        // Process variables
+        let currentStep = 0;
+        let isRunning = false;
+        let isPaused = false;
+        let remainingTime = 0;
+        let timerInterval;
+        let totalDuration = steps.reduce((sum, step) => sum + step.duration, 0);
+        let elapsedTime = 0;
+        let startTime;
+        
+        // Format time as MM:SS
+        function formatTime(ms) {
+            const seconds = Math.ceil(ms / 1000);
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        // Update labels highlighting
+        function updateLabels() {
+            document.querySelectorAll('.slider-label').forEach((label, index) => {
+                if (index <= currentStep) {
+                    label.classList.add('active');
+                } else {
+                    label.classList.remove('active');
+                }
+            });
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const progress = (elapsedTime / totalDuration) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+        }
+        
+        // Process each step
+        function processStep(stepIndex) {
+            if (stepIndex >= steps.length || isPaused) {
+                if (stepIndex >= steps.length) {
+                    completeProcess();
+                }
+                return;
+            }
+            
+            currentStep = stepIndex;
+            slider.value = stepIndex;
+            statusMessage.textContent = steps[stepIndex].name;
+            updateLabels();
+            
+            remainingTime = steps[stepIndex].duration;
+            updateTimerDisplay();
+            
+            // Clear any existing interval
+            clearInterval(timerInterval);
+            
+            startTime = Date.now();
+            
+            timerInterval = setInterval(() => {
+                if (!isPaused) {
+                    const currentTime = Date.now();
+                    const timeElapsedInStep = currentTime - startTime;
+                    remainingTime = Math.max(0, steps[stepIndex].duration - timeElapsedInStep);
+                    elapsedTime = totalDuration - calculateRemainingTotalTime();
+                    
+                    updateTimerDisplay();
+                    updateProgress();
+                    
+                    if (timeElapsedInStep >= steps[stepIndex].duration) {
+                        clearInterval(timerInterval);
+                        processStep(stepIndex + 1);
+                    }
+                }
+            }, 100);
+        }
+        
+        // Calculate remaining time for entire process
+        function calculateRemainingTotalTime() {
+            let remaining = 0;
+            for (let i = currentStep; i < steps.length; i++) {
+                if (i === currentStep) {
+                    remaining += remainingTime;
+                } else {
+                    remaining += steps[i].duration;
+                }
+            }
+            return remaining;
+        }
+        
+        // Update timer display
+        function updateTimerDisplay() {
+            timerElement.textContent = formatTime(remainingTime);
+        }
+        
+        // Complete the entire process
+        function completeProcess() {
+            isRunning = false;
+            resetButton.disabled = false;
+            pauseButton.disabled = true;
+            clearInterval(timerInterval);
+            
+            completionMessage.textContent = "Process complete! Your clothes are ready!";
+            statusMessage.textContent = "All steps completed";
+            timerElement.textContent = "00:00";
+            progressBar.style.width = "100%";
+            progressPercent.textContent = "100%";
+        }
+        
+        // Start the process
+        startButton.addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                isPaused = false;
+                startButton.disabled = true;
+                pauseButton.disabled = false;
+                resetButton.disabled = true;
+                elapsedTime = 0;
+                completionMessage.textContent = "";
+                startTime = Date.now();
+                processStep(0);
+            }
+        });
+        
+        // Pause/resume the process
+        pauseButton.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseButton.innerHTML = isPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+            
+            if (!isPaused && isRunning) {
+                startTime = Date.now() - (steps[currentStep].duration - remainingTime);
+                processStep(currentStep);
+            }
+        });
+        
+        // Reset the process
+        resetButton.addEventListener('click', () => {
+            currentStep = 0;
+            isRunning = false;
+            isPaused = false;
+            remainingTime = 0;
+            elapsedTime = 0;
+            clearInterval(timerInterval);
+            
+            slider.value = 0;
+            statusMessage.textContent = "Ready to start washing process";
+            timerElement.textContent = "00:00";
+            progressBar.style.width = "0%";
+            progressPercent.textContent = "0%";
+            completionMessage.textContent = "";
+            
+            startButton.disabled = false;
+            pauseButton.disabled = true;
+            resetButton.disabled = true;
+            pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            
+            updateLabels();
+        });
+        
+        // Initialize
+        updateLabels();
+    </script>
+</body>
+</html>
+
+manana bro
