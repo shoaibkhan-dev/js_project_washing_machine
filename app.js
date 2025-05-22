@@ -10,7 +10,7 @@ function onMachine(cb) {
   
   function clothes(cb) {
     setTimeout(() => {
-      console.log("Putting clothes into machine");
+      console.log("Putting clothes Into Machine");
       cb(wash); // takeWater ka callback hai
     }, 5000);
   }
