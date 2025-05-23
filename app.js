@@ -117,3 +117,9 @@ function onMachine(cb) {
   machineWork();
   
   //
+
+  setTimeout(function(){
+      console.log("hi shoaib");
+  }, 2000)
+
+  setTimeout
